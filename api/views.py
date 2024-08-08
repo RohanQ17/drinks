@@ -9,7 +9,7 @@ def jobs_api(request, id=None):
     if request.method == 'GET':
         jobs = Job.objects.all()
         serializer = JobSerializer(jobs, many=True)
-        return JsonResponse({"jobs": serializer.data})
+        return JsonResponse(serializer.data,safe=False)
 
     elif request.method == 'POST':
         serializer = JobSerializer(data=request.data)
