@@ -5,7 +5,7 @@ from .models import Job
 from .serializers import JobSerializer
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
-def jobs_api(request,id):
+def jobs_api(request, id=None):
     if request.method == 'GET':
         jobs = Job.objects.all()
         serializer = JobSerializer(jobs, many=True)
@@ -38,8 +38,12 @@ def jobs_api(request,id):
         elif request.method == 'DELETE':
             job.delete()
             return JsonResponse(status=status.HTTP_204_NO_CONTENT)
-@api_view(['GET'])   
-def jobs_detail(request,pk):
-    jobs = Job.objects.get(id=pk)
-    serializer = JobSerializer(jobs, many=True)
-    return JsonResponse(serializer.data,safe=False)
+@api_view(['GET'])
+def jobs_detail(request, id):
+    try:
+        job = Job.objects.get(id=id)
+    except Job.DoesNotExist:
+        return JsonResponse(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = JobSerializer(job)
+    return JsonResponse(serializer.data)
