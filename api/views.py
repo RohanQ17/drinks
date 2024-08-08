@@ -38,12 +38,16 @@ def jobs_api(request, id=None):
         elif request.method == 'DELETE':
             job.delete()
             return JsonResponse(status=status.HTTP_204_NO_CONTENT)
-@api_view(['GET'])
-def jobs_detail(request, id):
+@api_view(['GET', 'DELETE'])
+def jobs_detail(request, pk):
     try:
-        job = Job.objects.get(id=id)
+        job = Job.objects.get(id=pk)
     except Job.DoesNotExist:
         return JsonResponse(status=status.HTTP_404_NOT_FOUND)
 
-    serializer = JobSerializer(job)
-    return JsonResponse(serializer.data)
+    if request.method == 'GET':
+        serializer = JobSerializer(job)
+        return JsonResponse(serializer.data)
+    elif request.method == 'DELETE':
+        job.delete()
+        return JsonResponse(status=status.HTTP_204_NO_CONTENT)
