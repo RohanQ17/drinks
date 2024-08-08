@@ -39,9 +39,9 @@ def jobs_api(request, id=None):
             job.delete()
             return JsonResponse(status=status.HTTP_204_NO_CONTENT)
 @api_view(['GET', 'DELETE'])
-def jobs_detail(request, pk):
+def jobs_detail(request, id):
     try:
-        job = Job.objects.get(id=pk)
+        job = Job.objects.get(id=id)
     except Job.DoesNotExist:
         return JsonResponse(status=status.HTTP_404_NOT_FOUND)
 
