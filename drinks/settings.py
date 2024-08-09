@@ -65,7 +65,8 @@ REST_FRAMEWORK = {
 }
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOWED_ORIGINS = [
-    '.vercel.app'
+    'http://localhost:3000',
+    'https://n-h-kjobs.vercel.app'
       # Your production domain
 ]
 
